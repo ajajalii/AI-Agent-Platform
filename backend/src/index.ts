@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Router } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import { env } from "./config/env";
@@ -10,6 +10,15 @@ import { fileRoutes } from "./routes/file.routes";
 import { dashboardRoutes } from "./routes/dashboard.routes";
 
 const app = express();
+
+const mountRoute = (path: string, handler: unknown) => {
+  if (typeof handler !== "function") {
+    console.error(`Invalid route handler for ${path}:`, handler);
+    throw new Error(`Invalid route handler for ${path}`);
+  }
+
+  app.use(path, handler as Router);
+};
 
 app.use(helmet());
 app.use(
@@ -25,11 +34,11 @@ app.get("/api/health", (_req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
-app.use("/api/auth", authRoutes);
-app.use("/api/dashboard", dashboardRoutes);
-app.use("/api/agents", agentRoutes);
-app.use("/api/agents/:agentId/chats", chatRoutes);
-app.use("/api/agents/:agentId/files", fileRoutes);
+mountRoute("/api/auth", authRoutes);
+mountRoute("/api/dashboard", dashboardRoutes);
+mountRoute("/api/agents", agentRoutes);
+mountRoute("/api/agents/:agentId/chats", chatRoutes);
+mountRoute("/api/agents/:agentId/files", fileRoutes);
 
 app.use((_req, res) => {
   res.status(404).json({ success: false, error: "Route not found" });
