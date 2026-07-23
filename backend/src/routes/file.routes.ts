@@ -12,3 +12,4 @@ router.post("/", upload.single("file"), fileController.uploadFile);
 router.delete("/:fileId", fileController.deleteFile);
 
 export const fileRoutes = router;
+export default router;

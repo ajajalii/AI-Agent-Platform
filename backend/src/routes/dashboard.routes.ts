@@ -8,3 +8,4 @@ router.use(authenticate);
 router.get("/", dashboardController.getStats);
 
 export const dashboardRoutes = router;
+export default router;

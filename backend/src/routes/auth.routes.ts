@@ -15,3 +15,4 @@ router.get("/me", authenticate, authController.getProfile);
 router.patch("/me", authenticate, validate(updateProfileSchema), authController.updateProfile);
 
 export const authRoutes = router;
+export default router;

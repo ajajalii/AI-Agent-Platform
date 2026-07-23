@@ -13,4 +13,5 @@ router.get("/:chatId", chat_controller_1.chatController.getChat);
 router.delete("/:chatId", chat_controller_1.chatController.deleteChat);
 router.post("/:chatId/messages", (0, auth_1.validate)(validation_1.sendMessageSchema), chat_controller_1.chatController.sendMessage);
 exports.chatRoutes = router;
+exports.default = router;
 //# sourceMappingURL=chat.routes.js.map

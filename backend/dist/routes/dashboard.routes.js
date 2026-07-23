@@ -8,4 +8,5 @@ const router = (0, express_1.Router)();
 router.use(auth_1.authenticate);
 router.get("/", dashboard_controller_1.dashboardController.getStats);
 exports.dashboardRoutes = router;
+exports.default = router;
 //# sourceMappingURL=dashboard.routes.js.map

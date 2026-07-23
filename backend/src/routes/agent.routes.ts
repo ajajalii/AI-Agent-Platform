@@ -14,3 +14,4 @@ router.patch("/:id", validate(updateAgentSchema), agentController.update);
 router.delete("/:id", agentController.delete);
 
 export const agentRoutes = router;
+export default router;

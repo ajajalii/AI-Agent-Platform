@@ -11,4 +11,5 @@ router.post("/login", (0, auth_1.validate)(validation_1.loginSchema), auth_contr
 router.get("/me", auth_1.authenticate, auth_controller_1.authController.getProfile);
 router.patch("/me", auth_1.authenticate, (0, auth_1.validate)(validation_1.updateProfileSchema), auth_controller_1.authController.updateProfile);
 exports.authRoutes = router;
+exports.default = router;
 //# sourceMappingURL=auth.routes.js.map

@@ -8,11 +8,11 @@ const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const env_1 = require("./config/env");
 const auth_1 = require("./middleware/auth");
-const auth_routes_1 = require("./routes/auth.routes");
-const agent_routes_1 = require("./routes/agent.routes");
-const chat_routes_1 = require("./routes/chat.routes");
-const file_routes_1 = require("./routes/file.routes");
-const dashboard_routes_1 = require("./routes/dashboard.routes");
+const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
+const agent_routes_1 = __importDefault(require("./routes/agent.routes"));
+const chat_routes_1 = __importDefault(require("./routes/chat.routes"));
+const file_routes_1 = __importDefault(require("./routes/file.routes"));
+const dashboard_routes_1 = __importDefault(require("./routes/dashboard.routes"));
 const app = (0, express_1.default)();
 const mountRoute = (path, handler) => {
     if (typeof handler !== "function") {
@@ -31,11 +31,11 @@ app.use(express_1.default.urlencoded({ extended: true }));
 app.get("/api/health", (_req, res) => {
     res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
-mountRoute("/api/auth", auth_routes_1.authRoutes);
-mountRoute("/api/dashboard", dashboard_routes_1.dashboardRoutes);
-mountRoute("/api/agents", agent_routes_1.agentRoutes);
-mountRoute("/api/agents/:agentId/chats", chat_routes_1.chatRoutes);
-mountRoute("/api/agents/:agentId/files", file_routes_1.fileRoutes);
+mountRoute("/api/auth", auth_routes_1.default);
+mountRoute("/api/dashboard", dashboard_routes_1.default);
+mountRoute("/api/agents", agent_routes_1.default);
+mountRoute("/api/agents/:agentId/chats", chat_routes_1.default);
+mountRoute("/api/agents/:agentId/files", file_routes_1.default);
 app.use((_req, res) => {
     res.status(404).json({ success: false, error: "Route not found" });
 });

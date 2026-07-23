@@ -3,11 +3,11 @@ import cors from "cors";
 import helmet from "helmet";
 import { env } from "./config/env";
 import { errorHandler } from "./middleware/auth";
-import { authRoutes } from "./routes/auth.routes";
-import { agentRoutes } from "./routes/agent.routes";
-import { chatRoutes } from "./routes/chat.routes";
-import { fileRoutes } from "./routes/file.routes";
-import { dashboardRoutes } from "./routes/dashboard.routes";
+import authRoutes from "./routes/auth.routes";
+import agentRoutes from "./routes/agent.routes";
+import chatRoutes from "./routes/chat.routes";
+import fileRoutes from "./routes/file.routes";
+import dashboardRoutes from "./routes/dashboard.routes";
 
 const app = express();
 

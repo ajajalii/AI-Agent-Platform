@@ -13,4 +13,5 @@ router.post("/", (0, auth_1.validate)(validation_1.createAgentSchema), agent_con
 router.patch("/:id", (0, auth_1.validate)(validation_1.updateAgentSchema), agent_controller_1.agentController.update);
 router.delete("/:id", agent_controller_1.agentController.delete);
 exports.agentRoutes = router;
+exports.default = router;
 //# sourceMappingURL=agent.routes.js.map

@@ -11,4 +11,5 @@ router.get("/", file_controller_1.fileController.getFiles);
 router.post("/", upload_1.upload.single("file"), file_controller_1.fileController.uploadFile);
 router.delete("/:fileId", file_controller_1.fileController.deleteFile);
 exports.fileRoutes = router;
+exports.default = router;
 //# sourceMappingURL=file.routes.js.map
