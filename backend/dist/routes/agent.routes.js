@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.agentRoutes = void 0;
 const express_1 = require("express");
 const agent_controller_1 = require("../controllers/agent.controller");
 const auth_1 = require("../middleware/auth");
@@ -11,5 +12,5 @@ router.get("/:id", agent_controller_1.agentController.getById);
 router.post("/", (0, auth_1.validate)(validation_1.createAgentSchema), agent_controller_1.agentController.create);
 router.patch("/:id", (0, auth_1.validate)(validation_1.updateAgentSchema), agent_controller_1.agentController.update);
 router.delete("/:id", agent_controller_1.agentController.delete);
-exports.default = router;
+exports.agentRoutes = router;
 //# sourceMappingURL=agent.routes.js.map

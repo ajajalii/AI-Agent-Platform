@@ -13,4 +13,4 @@ router.post("/", validate(createAgentSchema), agentController.create);
 router.patch("/:id", validate(updateAgentSchema), agentController.update);
 router.delete("/:id", agentController.delete);
 
-export default router;
+export const agentRoutes = router;

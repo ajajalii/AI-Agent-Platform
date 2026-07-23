@@ -1,6 +1,5 @@
 import fs from "fs";
 import mammoth from "mammoth";
-import { PDFParse } from "pdf-parse";
 import { prisma } from "../config/database";
 import { AppError } from "../utils/response";
 import { agentService } from "./agent.service";
@@ -11,6 +10,7 @@ async function extractText(file: Express.Multer.File) {
   }
 
   if (file.mimetype === "application/pdf") {
+    const { PDFParse } = await import("pdf-parse");
     const buffer = await fs.promises.readFile(file.path);
     const parser = new PDFParse({ data: buffer });
     try {

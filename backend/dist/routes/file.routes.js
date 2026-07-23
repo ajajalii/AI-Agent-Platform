@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.fileRoutes = void 0;
 const express_1 = require("express");
 const file_controller_1 = require("../controllers/file.controller");
 const auth_1 = require("../middleware/auth");
@@ -9,5 +10,5 @@ router.use(auth_1.authenticate);
 router.get("/", file_controller_1.fileController.getFiles);
 router.post("/", upload_1.upload.single("file"), file_controller_1.fileController.uploadFile);
 router.delete("/:fileId", file_controller_1.fileController.deleteFile);
-exports.default = router;
+exports.fileRoutes = router;
 //# sourceMappingURL=file.routes.js.map

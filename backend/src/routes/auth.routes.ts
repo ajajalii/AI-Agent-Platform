@@ -14,4 +14,4 @@ router.post("/login", validate(loginSchema), authController.login);
 router.get("/me", authenticate, authController.getProfile);
 router.patch("/me", authenticate, validate(updateProfileSchema), authController.updateProfile);
 
-export default router;
+export const authRoutes = router;

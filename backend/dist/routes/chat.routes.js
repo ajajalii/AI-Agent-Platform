@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.chatRoutes = void 0;
 const express_1 = require("express");
 const chat_controller_1 = require("../controllers/chat.controller");
 const auth_1 = require("../middleware/auth");
@@ -11,5 +12,5 @@ router.post("/", (0, auth_1.validate)(validation_1.createChatSchema), chat_contr
 router.get("/:chatId", chat_controller_1.chatController.getChat);
 router.delete("/:chatId", chat_controller_1.chatController.deleteChat);
 router.post("/:chatId/messages", (0, auth_1.validate)(validation_1.sendMessageSchema), chat_controller_1.chatController.sendMessage);
-exports.default = router;
+exports.chatRoutes = router;
 //# sourceMappingURL=chat.routes.js.map

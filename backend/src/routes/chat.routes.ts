@@ -13,4 +13,4 @@ router.get("/:chatId", chatController.getChat);
 router.delete("/:chatId", chatController.deleteChat);
 router.post("/:chatId/messages", validate(sendMessageSchema), chatController.sendMessage);
 
-export default router;
+export const chatRoutes = router;
