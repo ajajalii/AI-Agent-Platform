@@ -1,14 +1,14 @@
+import { lazy, Suspense, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Copy, Check } from "lucide-react";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 interface MarkdownRendererProps {
   content: string;
 }
+
+const LazySyntaxHighlighter = lazy(() => import("./CodeHighlighter"));
 
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {
   return (
@@ -66,19 +66,15 @@ function CodeBlock({ language, code }: { language: string; code: string }) {
           )}
         </Button>
       </div>
-      <SyntaxHighlighter
-        style={oneDark}
-        language={language}
-        PreTag="div"
-        customStyle={{
-          margin: 0,
-          borderRadius: "0.5rem",
-          fontSize: "0.8125rem",
-          background: "#18181b",
-        }}
+      <Suspense
+        fallback={
+          <pre className="m-0 overflow-auto rounded-lg bg-zinc-900 p-4 text-[0.8125rem]">
+            <code>{code}</code>
+          </pre>
+        }
       >
-        {code}
-      </SyntaxHighlighter>
+        <LazySyntaxHighlighter code={code} language={language} />
+      </Suspense>
     </div>
   );
 }
