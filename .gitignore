@@ -12,6 +12,7 @@ backend/dist/
 .env
 frontend/.env
 backend/.env
+##
 
 # Local uploads and logs
 backend/uploads/
