@@ -46,6 +46,9 @@ async function parseErrorDetail(response) {
     }
 }
 async function requestCompletion(options) {
+    if (!env_1.env.OPENROUTER_API_KEY) {
+        throw new response_1.AppError(502, "OpenRouter API key is not configured");
+    }
     const payload = {
         model: resolveModel(options.model),
         messages: buildMessages(options.systemPrompt, options.messages),

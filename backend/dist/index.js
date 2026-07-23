@@ -33,8 +33,10 @@ app.use((_req, res) => {
     res.status(404).json({ success: false, error: "Route not found" });
 });
 app.use(auth_1.errorHandler);
-app.listen(env_1.env.PORT, () => {
-    console.log(`Server running on port ${env_1.env.PORT}`);
-});
+if (!process.env.VERCEL) {
+    app.listen(env_1.env.PORT, () => {
+        console.log(`Server running on port ${env_1.env.PORT}`);
+    });
+}
 exports.default = app;
 //# sourceMappingURL=index.js.map

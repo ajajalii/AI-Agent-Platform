@@ -11,7 +11,7 @@ const envSchema = zod_1.z.object({
     DATABASE_URL: zod_1.z.string().min(1),
     JWT_SECRET: zod_1.z.string().min(16),
     JWT_EXPIRES_IN: zod_1.z.string().default("7d"),
-    OPENROUTER_API_KEY: zod_1.z.string().min(1),
+    OPENROUTER_API_KEY: zod_1.z.string().optional(),
     PORT: zod_1.z.coerce.number().default(5000),
     NODE_ENV: zod_1.z.enum(["development", "production", "test"]).default("development"),
     FRONTEND_URL: zod_1.z.string().default("http://localhost:5173"),
@@ -21,7 +21,7 @@ const envSchema = zod_1.z.object({
 const parsed = envSchema.safeParse(process.env);
 if (!parsed.success) {
     console.error("Invalid environment variables:", parsed.error.flatten().fieldErrors);
-    process.exit(1);
+    throw new Error("Invalid environment variables");
 }
 exports.env = parsed.data;
 //# sourceMappingURL=env.js.map

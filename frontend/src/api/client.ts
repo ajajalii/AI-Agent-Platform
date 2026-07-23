@@ -31,7 +31,21 @@ api.interceptors.response.use(
 
 export function getErrorMessage(error: unknown): string {
   if (axios.isAxiosError(error)) {
-    return error.response?.data?.error || error.message || "Something went wrong";
+    const data = error.response?.data;
+
+    if (typeof data?.error === "string") {
+      return data.error;
+    }
+
+    if (typeof data?.message === "string") {
+      return data.message;
+    }
+
+    if (typeof data === "string") {
+      return data;
+    }
+
+    return error.message || "Something went wrong";
   }
   if (error instanceof Error) return error.message;
   return "Something went wrong";
