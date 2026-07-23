@@ -1,17 +1,31 @@
 import fs from "fs";
-import mammoth from "mammoth";
+import path from "path";
+import { randomUUID } from "crypto";
 import { prisma } from "../config/database";
 import { AppError } from "../utils/response";
 import { agentService } from "./agent.service";
 
+function getFileBuffer(file: Express.Multer.File) {
+  if (file.buffer) {
+    return file.buffer;
+  }
+
+  if (file.path) {
+    return fs.promises.readFile(file.path);
+  }
+
+  throw new AppError(400, "Uploaded file data is unavailable");
+}
+
 async function extractText(file: Express.Multer.File) {
   if (file.mimetype === "text/plain") {
-    return fs.promises.readFile(file.path, "utf8");
+    const buffer = await getFileBuffer(file);
+    return buffer.toString("utf8");
   }
 
   if (file.mimetype === "application/pdf") {
     const { PDFParse } = await import("pdf-parse");
-    const buffer = await fs.promises.readFile(file.path);
+    const buffer = await getFileBuffer(file);
     const parser = new PDFParse({ data: buffer });
     try {
       const parsed = await parser.getText();
@@ -25,7 +39,10 @@ async function extractText(file: Express.Multer.File) {
     file.mimetype ===
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
   ) {
-    const result = await mammoth.extractRawText({ path: file.path });
+    const mammoth = await import("mammoth");
+    const result = file.buffer
+      ? await mammoth.extractRawText({ buffer: file.buffer })
+      : await mammoth.extractRawText({ path: file.path });
     return result.value;
   }
 
@@ -63,16 +80,18 @@ export const fileService = {
       return prisma.uploadedFile.create({
         data: {
           agentId,
-          filename: file.filename,
+          filename:
+            file.filename ||
+            `${Date.now()}-${randomUUID()}${path.extname(file.originalname)}`,
           originalName: file.originalname,
           mimeType: file.mimetype,
           size: file.size,
-          path: file.path,
+          path: file.path || "",
           extractedText,
         },
       });
     } catch (error) {
-      if (fs.existsSync(file.path)) {
+      if (file.path && fs.existsSync(file.path)) {
         fs.unlinkSync(file.path);
       }
 
@@ -96,7 +115,7 @@ export const fileService = {
       throw new AppError(404, "File not found");
     }
 
-    if (fs.existsSync(file.path)) {
+    if (file.path && fs.existsSync(file.path)) {
       fs.unlinkSync(file.path);
     }
 

@@ -38,17 +38,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fileService = void 0;
 const fs_1 = __importDefault(require("fs"));
-const mammoth_1 = __importDefault(require("mammoth"));
+const path_1 = __importDefault(require("path"));
+const crypto_1 = require("crypto");
 const database_1 = require("../config/database");
 const response_1 = require("../utils/response");
 const agent_service_1 = require("./agent.service");
+function getFileBuffer(file) {
+    if (file.buffer) {
+        return file.buffer;
+    }
+    if (file.path) {
+        return fs_1.default.promises.readFile(file.path);
+    }
+    throw new response_1.AppError(400, "Uploaded file data is unavailable");
+}
 async function extractText(file) {
     if (file.mimetype === "text/plain") {
-        return fs_1.default.promises.readFile(file.path, "utf8");
+        const buffer = await getFileBuffer(file);
+        return buffer.toString("utf8");
     }
     if (file.mimetype === "application/pdf") {
         const { PDFParse } = await Promise.resolve().then(() => __importStar(require("pdf-parse")));
-        const buffer = await fs_1.default.promises.readFile(file.path);
+        const buffer = await getFileBuffer(file);
         const parser = new PDFParse({ data: buffer });
         try {
             const parsed = await parser.getText();
@@ -60,7 +71,10 @@ async function extractText(file) {
     }
     if (file.mimetype ===
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-        const result = await mammoth_1.default.extractRawText({ path: file.path });
+        const mammoth = await Promise.resolve().then(() => __importStar(require("mammoth")));
+        const result = file.buffer
+            ? await mammoth.extractRawText({ buffer: file.buffer })
+            : await mammoth.extractRawText({ path: file.path });
         return result.value;
     }
     throw new response_1.AppError(400, "Only PDF, TXT, and DOCX files are allowed");
@@ -86,17 +100,18 @@ exports.fileService = {
             return database_1.prisma.uploadedFile.create({
                 data: {
                     agentId,
-                    filename: file.filename,
+                    filename: file.filename ||
+                        `${Date.now()}-${(0, crypto_1.randomUUID)()}${path_1.default.extname(file.originalname)}`,
                     originalName: file.originalname,
                     mimeType: file.mimetype,
                     size: file.size,
-                    path: file.path,
+                    path: file.path || "",
                     extractedText,
                 },
             });
         }
         catch (error) {
-            if (fs_1.default.existsSync(file.path)) {
+            if (file.path && fs_1.default.existsSync(file.path)) {
                 fs_1.default.unlinkSync(file.path);
             }
             if (error instanceof response_1.AppError) {
@@ -114,7 +129,7 @@ exports.fileService = {
         if (!file) {
             throw new response_1.AppError(404, "File not found");
         }
-        if (fs_1.default.existsSync(file.path)) {
+        if (file.path && fs_1.default.existsSync(file.path)) {
             fs_1.default.unlinkSync(file.path);
         }
         await database_1.prisma.uploadedFile.delete({ where: { id: fileId } });

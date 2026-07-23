@@ -5,23 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.upload = void 0;
 const multer_1 = __importDefault(require("multer"));
-const path_1 = __importDefault(require("path"));
-const fs_1 = __importDefault(require("fs"));
 const env_1 = require("../config/env");
 const response_1 = require("../utils/response");
-const uploadDir = env_1.env.UPLOAD_DIR;
-if (!fs_1.default.existsSync(uploadDir)) {
-    fs_1.default.mkdirSync(uploadDir, { recursive: true });
-}
-const storage = multer_1.default.diskStorage({
-    destination: (_req, _file, cb) => {
-        cb(null, uploadDir);
-    },
-    filename: (_req, file, cb) => {
-        const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-        cb(null, `${uniqueSuffix}${path_1.default.extname(file.originalname)}`);
-    },
-});
+const storage = multer_1.default.memoryStorage();
 const allowedMimeTypes = [
     "application/pdf",
     "text/plain",
