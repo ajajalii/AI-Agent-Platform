@@ -1,0 +1,7 @@
+
+> agent-workspace-backend@1.0.0 dev
+> tsx watch src/index.ts
+
+Server running on port 5000
+12:47:14 AM [tsx] change in ./src\middleware\auth.ts Restarting...
+Server running on port 5000

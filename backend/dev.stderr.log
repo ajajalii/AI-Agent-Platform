@@ -1,0 +1,41 @@
+Unhandled error: SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)
+    at JSON.parse (<anonymous>)
+    at parse (D:\AI Agent Platform\backend\node_modules\body-parser\lib\types\json.js:91:21)
+    at D:\AI Agent Platform\backend\node_modules\body-parser\lib\read.js:162:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:214:14)
+    at invokeCallback (D:\AI Agent Platform\backend\node_modules\raw-body\index.js:238:16)
+    at done (D:\AI Agent Platform\backend\node_modules\raw-body\index.js:227:7)
+    at IncomingMessage.onEnd (D:\AI Agent Platform\backend\node_modules\raw-body\index.js:287:7)
+    at IncomingMessage.emit (node:events:518:28)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  expose: true,
+  statusCode: 400,
+  status: 400,
+  body: '{name:Local Tester,email:local.tester@example.com,password:password123}',
+  type: 'entity.parse.failed'
+}
+Gemini API error: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent: [403 Forbidden] Requests from referer <empty> are blocked. [{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"API_KEY_HTTP_REFERRER_BLOCKED","domain":"googleapis.com","metadata":{"service":"generativelanguage.googleapis.com","httpReferrer":"<empty>","consumer":"projects/794068868736"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"Requests from referer <empty> are blocked."}]
+    at handleResponseNotOk (D:\AI Agent Platform\backend\node_modules\@google\generative-ai\dist\index.js:434:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async makeRequest (D:\AI Agent Platform\backend\node_modules\@google\generative-ai\dist\index.js:403:9)
+    at async generateContent (D:\AI Agent Platform\backend\node_modules\@google\generative-ai\dist\index.js:867:22)
+    at async ChatSession.sendMessage (D:\AI Agent Platform\backend\node_modules\@google\generative-ai\dist\index.js:1210:9)
+    at async Object.sendMessage (D:\AI Agent Platform\backend\src\services\chat.service.ts:117:22)
+    at async sendMessage (D:\AI Agent Platform\backend\src\controllers\chat.controller.ts:61:22) {
+  status: 403,
+  statusText: 'Forbidden',
+  errorDetails: [
+    {
+      '@type': 'type.googleapis.com/google.rpc.ErrorInfo',
+      reason: 'API_KEY_HTTP_REFERRER_BLOCKED',
+      domain: 'googleapis.com',
+      metadata: [Object]
+    },
+    {
+      '@type': 'type.googleapis.com/google.rpc.LocalizedMessage',
+      locale: 'en-US',
+      message: 'Requests from referer <empty> are blocked.'
+    }
+  ]
+}
