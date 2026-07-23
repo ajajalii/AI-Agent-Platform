@@ -9,6 +9,14 @@ import chatRoutes from "./routes/chat.routes";
 import fileRoutes from "./routes/file.routes";
 import dashboardRoutes from "./routes/dashboard.routes";
 
+console.log({
+  authRoutes,
+  agentRoutes,
+  chatRoutes,
+  fileRoutes,
+  dashboardRoutes,
+});
+
 const app = express();
 
 const mountRoute = (path: string, handler: unknown) => {
