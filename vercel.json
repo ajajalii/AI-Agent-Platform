@@ -18,8 +18,9 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/index.html",
-      "service": "frontend"
+      "destination": {
+        "service": "frontend"
+      }
     }
   ]
 }
