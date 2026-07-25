@@ -20,6 +20,11 @@ The app is built around configurable agents: each agent has its own avatar, name
 - PostgreSQL persistence through Prisma ORM
 - OpenRouter-powered model routing
 
+## Visuals
+
+![Landing Page](frontend\src\assets\Landings.png)
+![Dashboard](frontend\src\assets\Dashboard.png)
+
 ## Tech Stack
 
 | Layer | Technologies |
