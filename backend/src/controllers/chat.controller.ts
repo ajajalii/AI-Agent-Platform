@@ -4,6 +4,7 @@ import { AuthRequest } from "../middleware/auth";
 import { sendSuccess } from "../utils/response";
 import { requiredParam } from "../utils/params";
 
+
 export const chatController = {
   getChats: async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
